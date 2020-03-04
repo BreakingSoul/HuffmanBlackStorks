@@ -6,4 +6,5 @@ public class Huffman {
 	}
 		//TODO write stuffjlkj
 		//TODO remember your user name & password  dchfgh hdsfoinknhm m lkmlkmjnknlknl
+	// govno
 }
