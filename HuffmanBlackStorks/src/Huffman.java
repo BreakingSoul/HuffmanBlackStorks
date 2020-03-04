@@ -5,6 +5,5 @@ public class Huffman {
 			// zapyskaet gui
 	}
 		//TODO write stuff
-		//TODO remember your user name & password  
-	
+		//TODO remember your user name & password  dchfgh
 }
