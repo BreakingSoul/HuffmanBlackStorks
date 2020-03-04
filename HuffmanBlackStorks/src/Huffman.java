@@ -2,7 +2,7 @@
 public class Huffman {
 
 	public static void main(String[] args) {
-			// zapyskaet gui
+			// zapyskaet gui лоедрзэ
 
 	}
 
@@ -25,6 +25,7 @@ public class Huffman {
 	static Node generateTree(int[] freq) {
 		
 		Node root = new Node('\u0000', 0, null, null);
+		
 		return root;
 	}
 }
