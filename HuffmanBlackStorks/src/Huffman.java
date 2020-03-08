@@ -2,7 +2,7 @@
 public class Huffman {
 
 	public static void main(String[] args) {
-			// zapyskaet gui כמוהנח‎dvdxcv
+			// zapyskaet gui כמוהנח‎dvdxcvjbjh
 
 	}
 
