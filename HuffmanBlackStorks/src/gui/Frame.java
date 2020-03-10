@@ -61,7 +61,7 @@ public class Frame extends javax.swing.JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("Сохранить");
+		JButton btnNewButton = new JButton("Save");
 		btnNewButton.setBackground(new Color(0, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
 			
@@ -69,7 +69,7 @@ public class Frame extends javax.swing.JFrame {
 				
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				fileChooser.setDialogTitle("Сохранить файл");
+				fileChooser.setDialogTitle("Save file");
 				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
 				int result = fileChooser.showSaveDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -96,10 +96,32 @@ public class Frame extends javax.swing.JFrame {
 		frame.getContentPane().add(btnNewButton);
 	
 		
-		JButton btnNewButton_2 = new JButton("\u0420\u0430\u0437\u0430\u0440\u0445\u0438\u0432\u0438\u0440\u043E\u0432\u0430\u0442\u044C");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			
+		JButton btnNewButton_2 = new JButton("Unzip");
+		btnNewButton_2.addActionListener(new ActionListener() {				
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+				fileChooser.setDialogTitle("Unzip File");
+				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
+				int result = fileChooser.showOpenDialog(null);
+				if(result == JFileChooser.APPROVE_OPTION) {
+					try {
+						File fi = fileChooser.getSelectedFile();
+						BufferedReader br = new BufferedReader(new FileReader(fi.getPath()));
+						String line = "";
+						String s = "";
+						while ((line=br.readLine()) != null) {
+							s += line;
+	//						s += "\n";
+						}
+						String decompressed = Huffman.decompress(s);
+						textArea.setText(decompressed);
+						if ( br != null)
+							br.close();
+					
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, e2.getMessage());
+					}
+				}
 			}
 		});
 		
@@ -123,11 +145,11 @@ public class Frame extends javax.swing.JFrame {
 		//scrollPane.setBounds(10, 11, 414, 156);
 		
 		
-		JButton btnNewButton_1 = new JButton("Архивировать");
+		JButton btnNewButton_1 = new JButton("Zip");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
-				fileChooser.setDialogTitle("Архивировать файл");
+				fileChooser.setDialogTitle("Zip File");
 				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
 				int result = fileChooser.showOpenDialog(null);
 				if(result == JFileChooser.APPROVE_OPTION) {
@@ -138,7 +160,7 @@ public class Frame extends javax.swing.JFrame {
 						String s = "";
 						while ((line=br.readLine()) != null) {
 							s += line;
-							s += "\n";
+		//					s += "\n";
 						}
 						String compressed = Huffman.compress(s);
 						textArea.setText(compressed);

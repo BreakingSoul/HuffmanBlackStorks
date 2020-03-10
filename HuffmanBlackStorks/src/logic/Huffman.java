@@ -15,9 +15,9 @@ public class Huffman {
 	public static void main(String[] args) {
 			// zapyskaet gui
 		showGUI();
-		String original = decompress("110110010011011111111011111001110101100111111110100110100000010101011110010110100010100111000000010111001110011101001110000000101110000101011110111010111110011101011110000010010010111111110110110100010100111110100001110110100110111111110100110100000010101011100100011001101110101010111001001110100010100111000000010110101001110001110010111001010{C=01000,.\r\n" + 
-				"=1001010,.T=1101100,. =111,.a=1100,.b=1101101,.c=0011,.d=01001,.e=0111,.f=001000,.g=001001,.(=1001011,.h=10011,.)=001010,.i=101,.k=01010,.l=01011,.m=1101110,.n=0000,..=001011,.o=1000,.r=0001,.s=11010,.t=0110,.w=1101111,.y=100100}");
-		System.out.println(original);
+	//	String original = decompress("110110010011011111111011111001110101100111111110100110100000010101011110010110100010100111000000010111001110011101001110000000101110000101011110111010111110011101011110000010010010111111110110110100010100111110100001110110100110111111110100110100000010101011100100011001101110101010111001001110100010100111000000010110101001110001110010111001010{C=01000,.\r\n" + 
+	//			"=1001010,.T=1101100,. =111,.a=1100,.b=1101101,.c=0011,.d=01001,.e=0111,.f=001000,.g=001001,.(=1001011,.h=10011,.)=001010,.i=101,.k=01010,.l=01011,.m=1101110,.n=0000,..=001011,.o=1000,.r=0001,.s=11010,.t=0110,.w=1101111,.y=100100}");
+	//	System.out.println(original);
 	//	returnTree("110110010011011111111011111001110101100111111110100110100000010101011110010110100010100111000000010111001110011101001110000000101110000101011110111010111110011101011110000010010010111111110110110100010100111110100001110110100110111111110100110100000010101011100100011001101110101010111001001110100010100111000000010110101001110001110010111001010{C=01000,.\r\n" + 
 	//			"=1001010,.T=1101100,. =111,.a=1100,.b=1101101,.c=0011,.d=01001,.e=0111,.f=001000,.g=001001,.(=1001011,.h=10011,.)=001010,.i=101,.k=01010,.l=01011,.m=1101110,.n=0000,..=001011,.o=1000,.r=0001,.s=11010,.t=0110,.w=1101111,.y=100100}");
 	//	System.out.println(hexToBin("D937FBE759FE9A055E5A29C05CE74E02E15EEBE75E092FF6D14FA1DA6FF4D02AE466EAB93A29C05A9C72E500 | {C=01000, \r\n=1001010, T=1101100,  =111, a=1100, b=1101101, c=0011, d=01001, e=0111, f=001000, g=001001, (=1001011, h=10011, )=001010, i=101, k=01010, l=01011, m=1101110, n=0000, .=001011, o=1000, r=0001, s=11010, t=0110, w=1101111, y=100100}"));
@@ -203,28 +203,28 @@ public class Huffman {
 		return binary;
 	}*/
 	
-	private static Map<Character, String> returnTree(String s) {
+	private static Map<Character, String> returnMap(String s) {
 		Map<Character, String> map = new HashMap<>();
 		s = s.substring(s.indexOf("{"));
 		s = s.substring(1, s.length() - 1);
 		String[] parts = s.split(",.");
-		for (String p : parts) {
+		/*for (String p : parts) {
 			System.out.println(p);
-		} 
-		System.out.println(parts.length);
+		}*/ 
+	//	System.out.println(parts.length);
 		
 		for (String p : parts) {
 			map.put(p.charAt(0), p.substring(2));
 			//System.out.println("added");
 		}
-		System.out.println(saveCodes(map));
-		System.out.println(map.size());
+	//	System.out.println(saveCodes(map));
+	//	System.out.println(map.size());
 		return map;
 	}
 	
 	public static String decompress(String compressed) {
 		String original = "";
-		Map<Character, String> map = returnTree(compressed);
+		Map<Character, String> map = returnMap(compressed);
 		int stop = compressed.indexOf('{');
 		compressed = compressed.substring(0, stop);
 		String current = "";
@@ -238,7 +238,7 @@ public class Huffman {
 		return original;
 	}
 	
-	public static String decompress(String compressed, Node root) {
+	/*public static String decompress(String compressed, Node root) {
 		StringBuilder builder = new StringBuilder();
 		Node current = root;
 		int i = 0;
@@ -257,7 +257,7 @@ public class Huffman {
 		}
 		
 		return builder.toString();
-	}
+	}*/
 	
 	public static <K, V> K getKey(Map<K, V> map, V value) {
 		for (Map.Entry<K, V> entry : map.entrySet()) {
