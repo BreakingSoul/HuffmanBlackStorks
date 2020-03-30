@@ -259,23 +259,35 @@ public class Frame extends javax.swing.JFrame {
 					if (Huffmanes.isSelected() && Encodes.isSelected()) {
 						// saves Huffman encoded text as binary
 						String encoded = Huffman.compress(textArea.getText());
+						System.out.println(encoded);
 						// save encoded in a file
 
+						
+						
 					} else if (Huffmanes.isSelected() && Decodes.isSelected()) {
 						// saves Huffman decoded text as regular file
 						String decoded = Huffman.decompress(textArea.getText());
+						System.out.println(decoded);
 						// save decoded in a file
 
+						
+						
 					} else if (RLEs.isSelected() && Encodes.isSelected()) {
-						// saves RLE encoded text as regular file (needs for next labdarba)
+						// saves RLE encoded text as whatever eats less space (needs for next labdarba)
 						String encoded = RLE.compress(textArea.getText());
+						System.out.println(encoded);
 						// save encoded in a file
 
+						
+						
 					} else if (RLEs.isSelected() && Decodes.isSelected()) {
 						// saves RLE decoded text as regular file (needs for next labdarba)
 						String decoded = RLE.decompress(textArea.getText());
+						System.out.println(decoded);
 						// save decoded in a file
 
+						
+						
 					}
 
 					/*
@@ -299,15 +311,17 @@ public class Frame extends javax.swing.JFrame {
 				} else if (openedPicture) {
 
 					if (Huffmanes.isSelected() && Encodes.isSelected()) {
-						// saves Huffman encoded text as binary (would be cool for next labrab but if you cant well ok)
+						// saves Huffman encoded text as binary (for next labdarba)
 						String encoded = Huffman.compress(textArea.getText());
+						System.out.println(encoded);
 						// save encoded in a file
 
 						
 						
 					} else if (Huffmanes.isSelected() && Decodes.isSelected()) {
-						// saves Huffman decoded text as bmp (would be cool for next labrab but if you cant well ok)
+						// saves Huffman decoded text as bmp (for next labdarba)
 						String decoded = Huffman.decompress(textArea.getText());
+						System.out.println(decoded);
 						// save decoded in a file
 
 						
@@ -316,14 +330,18 @@ public class Frame extends javax.swing.JFrame {
 					} else if (RLEs.isSelected() && Encodes.isSelected()) {
 						// Saves RLE encoded picture as whatever takes less memory.
 						String encoded = RLE.compressPicture(textArea.getText());
+						System.out.println(encoded);
 						// save encoded in a file
+						
 						
 						
 						
 					} else if (RLEs.isSelected() && Decodes.isSelected()) {
 						// Saves decoded picture as bmp.
 						String decoded = RLE.decompressPicture(textArea.getText());
+						System.out.println(decoded);
 						// save decoded in a file
+						
 						
 						
 						
