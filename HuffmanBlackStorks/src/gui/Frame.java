@@ -322,6 +322,7 @@ public class Frame extends javax.swing.JFrame {
 						// saves Huffman decoded text as bmp (for next labdarba)
 						String decoded = Huffman.decompress(textArea.getText());
 						System.out.println(decoded);
+						decoded = toARGB(decoded);
 						// save decoded in a file
 
 						
@@ -340,6 +341,7 @@ public class Frame extends javax.swing.JFrame {
 						// Saves decoded picture as bmp.
 						String decoded = RLE.decompressPicture(textArea.getText());
 						System.out.println(decoded);
+						decoded = toARGB(decoded);
 						// save decoded in a file
 						
 						
@@ -356,7 +358,7 @@ public class Frame extends javax.swing.JFrame {
 
 		btnNewButton.setBounds(170, 227, 124, 23);
 		frame.getContentPane().add(btnNewButton);
-
+		
 		/*
 		 * JButton btnNewButton_2 = new JButton("Unzip");
 		 * btnNewButton_2.addActionListener(new ActionListener() { public void
@@ -380,5 +382,12 @@ public class Frame extends javax.swing.JFrame {
 		 * btnNewButton_2.setBounds(10, 193, 141, 57);
 		 * frame.getContentPane().add(btnNewButton_2);
 		 */
+	}
+	
+	public static String toARGB(String s) {
+		s = s.replace("0", "z");
+		s = s.replace("1", "11111111000000000000000000000000");
+		s = s.replace("z", "11111111111111111111111111111111");
+		return s;
 	}
 }

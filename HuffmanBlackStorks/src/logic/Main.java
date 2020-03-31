@@ -7,7 +7,7 @@ import gui.Frame;
 public class Main {
 
 	public static void main(String[] args) {
-		showGUI();
+		showGUI();		
 	}
 
 	public static void showGUI() {
@@ -22,8 +22,9 @@ public class Main {
 			}
 		});
 	}
-
 }
+
+//System.out.println(Frame.toARGB("0110"));
 
 /*
  * System.out.println(RLE.compressPicture(
