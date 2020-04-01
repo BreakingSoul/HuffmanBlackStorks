@@ -56,7 +56,7 @@ public class Frame extends javax.swing.JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("РЎРѕС…СЂР°РЅРёС‚СЊ");
+		JButton btnNewButton = new JButton("Сохранить");
 		btnNewButton.setBackground(new Color(0, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
 			
@@ -64,7 +64,7 @@ public class Frame extends javax.swing.JFrame {
 				
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				fileChooser.setDialogTitle("РЎРѕС…СЂР°РЅРёС‚СЊ С„Р°Р№Р»");
+				fileChooser.setDialogTitle("Сохранить файл");
 				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
 				int result = fileChooser.showSaveDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -112,11 +112,11 @@ public class Frame extends javax.swing.JFrame {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton_1 = new JButton("РђСЂС…РёРІРёСЂРѕРІР°С‚СЊ");
+		JButton btnNewButton_1 = new JButton("Архивировать");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
-				fileChooser.setDialogTitle("РђСЂС…РёРІРёСЂРѕРІР°С‚СЊ С„Р°Р№Р»");
+				fileChooser.setDialogTitle("Архивировать файл");
 				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
 				int result = fileChooser.showOpenDialog(null);
 				if(result == JFileChooser.APPROVE_OPTION) {

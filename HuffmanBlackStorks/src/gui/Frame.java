@@ -75,14 +75,14 @@ public class Frame extends javax.swing.JFrame {
 				if (result == JFileChooser.APPROVE_OPTION) {
 					String content = textArea.getText();
 					File fi = fileChooser.getSelectedFile();
+					byte[] byteArr = content.getBytes();
 					try {
 						FileWriter fw = new FileWriter(fi.getPath());
-						fw.write(content);
-						fw.flush();
-						fw.close();
-					} catch (Exception e2) {
-						JOptionPane.showMessageDialog(null, e2.getMessage());
-						
+						fw.write(byteArr);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return false;
 					}
 					
 				}
