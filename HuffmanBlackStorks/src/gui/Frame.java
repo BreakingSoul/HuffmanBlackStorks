@@ -13,7 +13,7 @@ import java.io.IOException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.DatatypeConverter;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+//import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -181,7 +181,7 @@ public class Frame extends javax.swing.JFrame {
 		txtEncodingAlgoritm.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEncodingAlgoritm.setText("Encoding Algoritm");
 		txtEncodingAlgoritm.setBackground(SystemColor.scrollbar);
-		txtEncodingAlgoritm.setBounds(170, 55, 107, 20);
+		txtEncodingAlgoritm.setBounds(141, 102, 153, 20);
 		txtEncodingAlgoritm.setEditable(false);
 		frame.getContentPane().add(txtEncodingAlgoritm);
 		txtEncodingAlgoritm.setColumns(10);
@@ -202,7 +202,7 @@ public class Frame extends javax.swing.JFrame {
 				}
 			}
 		});
-		Huffmanes.setBounds(58, 76, 109, 23);
+		Huffmanes.setBounds(47, 131, 109, 23);
 		frame.getContentPane().add(Huffmanes);
 
 		// JRadioButton RLEs = new JRadioButton("RLE");
@@ -216,7 +216,7 @@ public class Frame extends javax.swing.JFrame {
 
 			}
 		});
-		RLEs.setBounds(283, 76, 109, 23);
+		RLEs.setBounds(283, 131, 109, 23);
 		frame.getContentPane().add(RLEs);
 
 		txtMode = new JTextField();
@@ -224,7 +224,7 @@ public class Frame extends javax.swing.JFrame {
 		txtMode.setHorizontalAlignment(SwingConstants.CENTER);
 		txtMode.setColumns(10);
 		txtMode.setBackground(SystemColor.scrollbar);
-		txtMode.setBounds(170, 124, 107, 20);
+		txtMode.setBounds(141, 163, 153, 20);
 		txtMode.setEditable(false);
 		frame.getContentPane().add(txtMode);
 
@@ -238,7 +238,7 @@ public class Frame extends javax.swing.JFrame {
 				}
 			}
 		});
-		Encodes.setBounds(58, 155, 109, 23);
+		Encodes.setBounds(47, 193, 109, 23);
 		frame.getContentPane().add(Encodes);
 
 		// JRadioButton Decodes = new JRadioButton("Decode");
@@ -251,7 +251,7 @@ public class Frame extends javax.swing.JFrame {
 				}
 			}
 		});
-		Decodes.setBounds(283, 155, 109, 23);
+		Decodes.setBounds(283, 193, 109, 23);
 		frame.getContentPane().add(Decodes);
 
 		JButton btnNewButton = new JButton("Save");
@@ -410,8 +410,43 @@ public class Frame extends javax.swing.JFrame {
 			}
 		});
 
-		btnNewButton.setBounds(170, 227, 124, 23);
+		btnNewButton.setBounds(141, 225, 153, 23);
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_3 = new JButton("Open RLE'd image");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+				fileChooser.setDialogTitle("Unzip Picture");
+	//			fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents"));
+				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
+				int result = fileChooser.showOpenDialog(null);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					try {
+						File fi = fileChooser.getSelectedFile();
+						BufferedReader br = new BufferedReader(new FileReader(fi.getPath()));
+						String line = "";
+						String s = "";
+						while ((line = br.readLine()) != null) {
+							s += line;
+						}
+						textArea.setText(s);
+						openedText = false;
+						openedPicture = true;
+
+						if (br != null)
+							br.close();
+
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, e2.getMessage());
+					}
+
+				}
+			}
+		});
+		btnNewButton_3.setBounds(10, 69, 146, 25);
+		btnNewButton_3.setBackground(Color.CYAN);
+		frame.getContentPane().add(btnNewButton_3);
 		
 		/*
 		 * JButton btnNewButton_2 = new JButton("Unzip");
