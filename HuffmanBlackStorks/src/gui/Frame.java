@@ -8,8 +8,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.IOException;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.bind.DatatypeConverter;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -23,6 +27,8 @@ import java.awt.Toolkit;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public class Frame extends javax.swing.JFrame {
 
@@ -277,6 +283,22 @@ public class Frame extends javax.swing.JFrame {
 						String encoded = RLE.compress(textArea.getText());
 						System.out.println(encoded);
 						// save encoded in a file
+						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fileChooser.setDialogTitle("Save file"); 
+						fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+						fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents")); 
+						int result = fileChooser.showSaveDialog(null);
+						if (result == JFileChooser.APPROVE_OPTION) { String content = textArea.getText(); File fi = fileChooser.getSelectedFile(); 
+						try { FileWriter fw = new FileWriter(fi.getPath()); 
+						fw.write(encoded); 
+						fw.flush(); 
+						fw.close();
+						} catch (Exception e2) { JOptionPane.showMessageDialog(null, e2.getMessage());
+						  
+						}
+						  
+						}
 
 						
 						
@@ -285,6 +307,22 @@ public class Frame extends javax.swing.JFrame {
 						String decoded = RLE.decompress(textArea.getText());
 						System.out.println(decoded);
 						// save decoded in a file
+						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fileChooser.setDialogTitle("Save file"); 
+						fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+						fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents")); 
+						int result = fileChooser.showSaveDialog(null);
+						if (result == JFileChooser.APPROVE_OPTION) { String content = textArea.getText(); File fi = fileChooser.getSelectedFile(); 
+						try { FileWriter fw = new FileWriter(fi.getPath()); 
+						fw.write(decoded); 
+						fw.flush(); 
+						fw.close();
+						} catch (Exception e2) { JOptionPane.showMessageDialog(null, e2.getMessage());
+						  
+						}
+						  
+						}
 
 						
 						
@@ -315,6 +353,7 @@ public class Frame extends javax.swing.JFrame {
 						String encoded = Huffman.compress(textArea.getText());
 						System.out.println(encoded);
 						// save encoded in a file
+						
 
 						
 						
@@ -333,6 +372,22 @@ public class Frame extends javax.swing.JFrame {
 						String encoded = RLE.compressPicture(textArea.getText());
 						System.out.println(encoded);
 						// save encoded in a file
+						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						fileChooser.setDialogTitle("Save file"); 
+						fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+						fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents")); 
+						int result = fileChooser.showSaveDialog(null);
+						if (result == JFileChooser.APPROVE_OPTION) { String content = textArea.getText(); File fi = fileChooser.getSelectedFile(); 
+						try { FileWriter fw = new FileWriter(fi.getPath()); 
+						fw.write(encoded); 
+						fw.flush(); 
+						fw.close();
+						} catch (Exception e2) { JOptionPane.showMessageDialog(null, e2.getMessage());
+						  
+						}
+						  
+						}
 						
 						
 						
@@ -343,8 +398,7 @@ public class Frame extends javax.swing.JFrame {
 						System.out.println(decoded);
 						decoded = toARGB(decoded);
 						// save decoded in a file
-						
-						
+
 						
 						
 					}
