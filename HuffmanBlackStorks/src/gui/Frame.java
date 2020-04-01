@@ -375,8 +375,6 @@ public class Frame extends javax.swing.JFrame {
 						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fileChooser.setDialogTitle("Save file"); 
-						fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
-						fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents")); 
 						int result = fileChooser.showSaveDialog(null);
 						if (result == JFileChooser.APPROVE_OPTION) { String content = textArea.getText(); File fi = fileChooser.getSelectedFile(); 
 						try { FileWriter fw = new FileWriter(fi.getPath()); 
@@ -398,7 +396,17 @@ public class Frame extends javax.swing.JFrame {
 						System.out.println(decoded);
 						decoded = toARGB(decoded);
 						// save decoded in a file
-
+						File f = null;
+						byte[] bytes = DatatypeConverter.parseBase64Binary(decoded);
+						//System.out.println(bytes);
+						try { FileWriter fw = new FileWriter(fi.getPath()); 
+						fw.write(decoded); 
+						fw.flush(); 
+						fw.close();
+						} catch (Exception e2) { JOptionPane.showMessageDialog(null, e2.getMessage());
+						  
+						}
+						
 						
 						
 					}
