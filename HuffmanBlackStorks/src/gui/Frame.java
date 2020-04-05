@@ -8,21 +8,31 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.io.IOException;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.DatatypeConverter;
 
+import com.sun.javafx.scene.paint.GradientUtils.Point;
+
 //import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.awt.Transparency;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -395,16 +405,25 @@ public class Frame extends javax.swing.JFrame {
 						String decoded = RLE.decompressPicture(textArea.getText());
 						System.out.println(decoded);
 						decoded = toARGB(decoded);
-						// save decoded in a file
-						File f = null;
-						byte[] bytes = DatatypeConverter.parseBase64Binary(decoded);
+						byte[] bytes =  DatatypeConverter.parseBase64Binary(decoded);//длина массива кастрированна, но на картике появляется контур
+						//byte[] bytes = decoded.getBytes(); сохраняет длину массива, но картинка пустая
+						//byte[] bytes = {0xa,0x2,0xf,(byte)0xff,(byte)0xff,(byte)0xff}; как это было в примере с сохранением картинки
 						//System.out.println(bytes);
-						try { FileWriter fw = new FileWriter(fi.getPath()); 
-						fw.write(decoded); 
-						fw.flush(); 
-						fw.close();
-						} catch (Exception e2) { JOptionPane.showMessageDialog(null, e2.getMessage());
-						  
+						int width = 16;
+						int height = 16;
+						DataBuffer buffer = new DataBufferByte(bytes, bytes.length);
+
+						//3 bytes per pixel: red, green, blue
+						WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 3 * width, 3, new int[] {0, 1, 2}, null);
+						ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE); 
+						BufferedImage image = new BufferedImage(cm, raster, true, null);
+
+						try {
+							System.out.println(Arrays.toString(bytes));
+							ImageIO.write(image, "png", new File("image.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 						
 						
