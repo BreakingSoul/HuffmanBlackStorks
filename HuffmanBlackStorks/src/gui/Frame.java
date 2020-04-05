@@ -420,7 +420,7 @@ public class Frame extends javax.swing.JFrame {
 
 						try {
 							System.out.println(Arrays.toString(bytes));
-							ImageIO.write(image, "png", new File("image.png"));
+							ImageIO.write(image, "png", new File("image.png"));//сохраняет в папке проекта
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
