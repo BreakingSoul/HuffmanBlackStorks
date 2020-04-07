@@ -5,12 +5,18 @@ import logic.*;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.DatatypeConverter;
@@ -90,26 +96,49 @@ public class Frame extends javax.swing.JFrame {
 
 		textArea = new JTextArea();
 		textArea.setBounds(64, 1, 280, 94);
-		/*
-		 * textArea.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { } });
-		 */
-		// textArea.setBounds(10, 11, 414, 156);
 		frame.getContentPane().add(textArea);
 		textArea.setColumns(10);
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(111, 11, 313, 40);
-		// scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
-		// scrollPane.setBounds(10, 11, 414, 156);
 
+		JRadioButton RLEs = new JRadioButton("RLE");
+		JRadioButton Huffmanes = new JRadioButton("Huffman");
+		JRadioButton Encodes = new JRadioButton("Encode");
+		JRadioButton Decodes = new JRadioButton("Decode");
+
+		Huffmanes.setSelected(true);
+		Encodes.setSelected(true);
+		
 		JButton btnNewButton_1 = new JButton("Open txt");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (Huffmanes.isSelected() && Decodes.isSelected()) {
+					  JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+					  fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					  fileChooser.setDialogTitle("Zip File"); 
+					  fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+					  int res1 = fileChooser.showOpenDialog(null);
+					  JFileChooser fileChooser2 = new JFileChooser(new File("c:\\"));
+					  fileChooser2.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					  fileChooser.setDialogTitle("Zip File"); 
+					  fileChooser2.setFileFilter(new Filter(".txt", "Text File")); 
+					   int res2 = fileChooser2.showOpenDialog(null);
+					   if (res1 == JFileChooser.APPROVE_OPTION && res2 == JFileChooser.APPROVE_OPTION) {
+							try {
+								String concatenate = fileToString(fileChooser.getSelectedFile(), fileChooser2.getSelectedFile());
+								textArea.setText(concatenate);
+								openedText = true;
+								openedPicture = false;
+
+							} catch (Exception e2) {
+								JOptionPane.showMessageDialog(null, e2.getMessage());
+							}
+					   }
+				} else {
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 				fileChooser.setDialogTitle("Zip File");
-				fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents"));
 				fileChooser.setFileFilter(new Filter(".txt", "Text File"));
 				int result = fileChooser.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -135,6 +164,7 @@ public class Frame extends javax.swing.JFrame {
 				}
 
 			}
+		}
 		});
 		btnNewButton_1.setBackground(Color.CYAN);
 		btnNewButton_1.setBounds(10, 11, 95, 23);
@@ -143,9 +173,9 @@ public class Frame extends javax.swing.JFrame {
 		JButton btnNewButton_2 = new JButton("Open bmp");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 				fileChooser.setDialogTitle("Zip File");
-				// fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents"));
 				fileChooser.setFileFilter(new Filter(".bmp", "Bitmap Image"));
 				int result = fileChooser.showOpenDialog(null);
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -156,7 +186,6 @@ public class Frame extends javax.swing.JFrame {
 						String s = "";
 						for (int p : pixels) {
 							String bin = Integer.toBinaryString(p);
-							// System.out.println(bin);
 							if (bin.equals("11111111111111111111111111111111")) {
 								bin = "0";
 							} else {
@@ -164,18 +193,9 @@ public class Frame extends javax.swing.JFrame {
 							}
 							s = s + bin;
 						}
-						// System.out.println(s.length());
 						textArea.setText(s);
 						openedText = false;
 						openedPicture = true;
-
-						/*
-						 * File fi = fileChooser.getSelectedFile(); BufferedReader br = new
-						 * BufferedReader(new FileReader(fi.getPath()));
-						 * 
-						 * String line = ""; String s = ""; while ((line=br.readLine()) != null) { s +=
-						 * line; } textArea.setText(s); if ( br != null) br.close();
-						 */
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, e2.getMessage());
 					}
@@ -183,6 +203,7 @@ public class Frame extends javax.swing.JFrame {
 				}
 
 			}
+		
 		});
 		btnNewButton_2.setBackground(Color.CYAN);
 		btnNewButton_2.setBounds(10, 40, 95, 23);
@@ -196,13 +217,7 @@ public class Frame extends javax.swing.JFrame {
 		txtEncodingAlgoritm.setEditable(false);
 		frame.getContentPane().add(txtEncodingAlgoritm);
 		txtEncodingAlgoritm.setColumns(10);
-		JRadioButton RLEs = new JRadioButton("RLE");
-		JRadioButton Huffmanes = new JRadioButton("Huffman");
-		JRadioButton Encodes = new JRadioButton("Encode");
-		JRadioButton Decodes = new JRadioButton("Decode");
 
-		Huffmanes.setSelected(true);
-		Encodes.setSelected(true);
 
 		Huffmanes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,8 +230,6 @@ public class Frame extends javax.swing.JFrame {
 		});
 		Huffmanes.setBounds(47, 131, 109, 23);
 		frame.getContentPane().add(Huffmanes);
-
-		// JRadioButton RLEs = new JRadioButton("RLE");
 		RLEs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -239,7 +252,6 @@ public class Frame extends javax.swing.JFrame {
 		txtMode.setEditable(false);
 		frame.getContentPane().add(txtMode);
 
-		// JRadioButton Encodes = new JRadioButton("Encode");
 		Encodes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -252,7 +264,6 @@ public class Frame extends javax.swing.JFrame {
 		Encodes.setBounds(47, 193, 109, 23);
 		frame.getContentPane().add(Encodes);
 
-		// JRadioButton Decodes = new JRadioButton("Decode");
 		Decodes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -278,12 +289,64 @@ public class Frame extends javax.swing.JFrame {
 						String encoded = Huffman.compress(textArea.getText());
 						System.out.println(encoded);
 						// save encoded in a file
-
+						String[] split = encoded.split("(?=\\{)");
+						System.out.println(split[0]);
+						System.out.println(split[1]);
+						String result1=split[0];
+						String result2=split[1];
+								
+						    BitSet bitset = new BitSet(result1.length());
+						    for (int i = 0; i < result1.length(); i++) {
+						        if (result1.charAt(i) == '1') {
+						            bitset.set(i);
+						        }
+						    }
+										
+						  JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+						  fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						  fileChooser.setDialogTitle("Save file"); 
+						  fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+						  int res1 = fileChooser.showSaveDialog(null);
+						  JFileChooser fileChooser2 = new JFileChooser(new File("c:\\"));
+						  fileChooser2.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						  fileChooser2.setDialogTitle("Save file"); 
+						  fileChooser2.setFileFilter(new Filter(".txt", "Text File")); 
+						  int res2 = fileChooser2.showSaveDialog(null);
+						  if (res1 == JFileChooser.APPROVE_OPTION && res2 == JFileChooser.APPROVE_OPTION) { 
+							  File fi = fileChooser.getSelectedFile();
+							  File fi2 = fileChooser2.getSelectedFile();
+							  try { 
+								  DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(fi.getPath()));
+								  DataOutputStream dataOutputStream2 = new DataOutputStream(new FileOutputStream(fi2.getPath()));
+								  dataOutputStream.write(bitset.toByteArray()); 
+								  dataOutputStream2.write(result2.getBytes());
+								  dataOutputStream.close();
+								  dataOutputStream2.close();
+						  } catch (Exception e2) { 
+							  JOptionPane.showMessageDialog(null, e2.getMessage());
+						  }
+						  }
 					} else if (Huffmanes.isSelected() && Decodes.isSelected()) {
 						// saves Huffman decoded text as regular file
 						String decoded = Huffman.decompress(textArea.getText());
 						System.out.println(decoded);
 						// save decoded in a file
+						 JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+						  fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						  fileChooser.setDialogTitle("Save file"); 
+						  fileChooser.setFileFilter(new Filter(".txt", "Text File")); 
+						  int res1 = fileChooser.showSaveDialog(null);
+						  if (res1 == JFileChooser.APPROVE_OPTION) { 
+							  File fi = fileChooser.getSelectedFile();
+							  try { 
+								  FileWriter fw = new FileWriter(fi.getPath());
+									fw.write(decoded);
+									fw.flush();
+									fw.close();
+						  } catch (Exception e2) { 
+							  JOptionPane.showMessageDialog(null, e2.getMessage());
+						  }
+						  }
 
 					} else if (RLEs.isSelected() && Encodes.isSelected()) {
 						// saves RLE encoded text as whatever eats less space (needs for next labdarba)
@@ -335,24 +398,6 @@ public class Frame extends javax.swing.JFrame {
 						}
 
 					}
-
-					/*
-					 * HOW IT USED TO BE (HUFFMAN ENCODING + DECODING WITH TEXT (WAS WRONG))
-					 * JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
-					 * fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-					 * fileChooser.setDialogTitle("Save file"); fileChooser.setFileFilter(new
-					 * Filter(".txt", "Text File")); fileChooser.setFileFilter(new Filter(".docx",
-					 * "Microsoft Word Documents")); int result = fileChooser.showSaveDialog(null);
-					 * if (result == JFileChooser.APPROVE_OPTION) { String content =
-					 * textArea.getText(); File fi = fileChooser.getSelectedFile(); try { FileWriter
-					 * fw = new FileWriter(fi.getPath()); fw.write(content); fw.flush(); fw.close();
-					 * } catch (Exception e2) { JOptionPane.showMessageDialog(null,
-					 * e2.getMessage());
-					 * 
-					 * }
-					 * 
-					 * }
-					 */
 
 				} else if (openedPicture) {
 
@@ -486,31 +531,38 @@ public class Frame extends javax.swing.JFrame {
 		btnNewButton_3.setBounds(10, 69, 146, 25);
 		btnNewButton_3.setBackground(Color.CYAN);
 		frame.getContentPane().add(btnNewButton_3);
-
-		/*
-		 * JButton btnNewButton_2 = new JButton("Unzip");
-		 * btnNewButton_2.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { JFileChooser fileChooser = new
-		 * JFileChooser(new File("c:\\")); fileChooser.setDialogTitle("Unzip File");
-		 * fileChooser.setFileFilter(new Filter(".txt", "Text File"));
-		 * fileChooser.setFileFilter(new Filter(".docx", "Microsoft Word Documents"));
-		 * int result = fileChooser.showOpenDialog(null); if(result ==
-		 * JFileChooser.APPROVE_OPTION) { try { File fi = fileChooser.getSelectedFile();
-		 * BufferedReader br = new BufferedReader(new FileReader(fi.getPath())); String
-		 * line = ""; String s = ""; while ((line=br.readLine()) != null) { s += line;
-		 * 
-		 * } String decompressed = Huffman.decompress(s);
-		 * textArea.setText(decompressed); if ( br != null) br.close();
-		 * 
-		 * } catch (Exception e2) { JOptionPane.showMessageDialog(null,
-		 * e2.getMessage()); } } } });
-		 * 
-		 * 
-		 * btnNewButton_2.setBackground(new Color(0, 255, 255));
-		 * btnNewButton_2.setBounds(10, 193, 141, 57);
-		 * frame.getContentPane().add(btnNewButton_2);
-		 */
 	}
+		
+    private static String fileToString(File str, File map) {
+
+    	byte[] a, b;
+    	
+		  //init array with file length
+		a = new byte[(int) str.length()]; 
+		b = new byte[(int) map.length()];
+		//concatenated = new byte[(int) str.length() + (int) map.length()];
+
+		FileInputStream fis, fis2;
+		try {
+			fis = new FileInputStream(str);
+			fis.read(a); 
+			fis2 = new FileInputStream(map);
+			fis2.read(b); 
+			  fis.close();
+			  fis2.close(); 					
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}		
+		BitSet bS = BitSet.valueOf(a);
+		String decode = "";
+		for (int i=0;i<=bS.length();i++){
+			char newDigit = (bS.get(i)==true?'1':'0');			
+			decode = decode + newDigit;
+		}
+
+		String result = decode + new String(b, java.nio.charset.StandardCharsets.ISO_8859_1);
+		return result;  	
+    }
 
 	public static String toARGB(String s) {
 		s = s.replace("0", "z");
@@ -519,25 +571,3 @@ public class Frame extends javax.swing.JFrame {
 		return s;
 	}
 }
-
-// System.out.println(decoded);
-// decoded = toARGB(decoded);
-// byte[] bytes = DatatypeConverter.parseBase64Binary(decoded);//длина массива
-// кастрированна, но на картике появляется контур
-// byte[] bytes = decoded.getBytes(); сохраняет длину массива, но картинка
-// пустая
-// byte[] bytes = {0xa,0x2,0xf,(byte)0xff,(byte)0xff,(byte)0xff}; как это было в
-// примере с сохранением картинки
-// System.out.println(bytes);
-
-// System.out.println(Arrays.toString(bytes));
-// System.out.println(width + " " + height);
-// DataBuffer buffer = new DataBufferByte(bytes, bytes.length);
-
-// 3 bytes per pixel: red, green, blue
-// WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height,
-// 3 * width, 3, new int[] {0, 1, 2}, null);
-// ColorModel cm = new
-// ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true,
-// Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-// BufferedImage image = new BufferedImage(cm, raster, true, null);
