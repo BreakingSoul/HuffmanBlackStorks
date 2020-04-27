@@ -183,15 +183,32 @@ public class Frame extends javax.swing.JFrame {
 						File fi = fileChooser.getSelectedFile();
 						BufferedImage img = ImageIO.read(fi);
 						int[] pixels = img.getRGB(0, 0, img.getWidth(), img.getHeight(), null, 0, img.getWidth());
+						String[] miniS = new String[101];
+						for (int i = 0; i < 101; i++) {
+							miniS[i] = "";
+						}
 						String s = "";
-						for (int p : pixels) {
-							String bin = Integer.toBinaryString(p);
+						int percent = 0;
+						int onePerc = pixels.length/100;
+			//			int current = 0;
+						for (int i = 0, current = 0; i < pixels.length; i++) {
+							current++;
+							String bin = Integer.toBinaryString(pixels[i]);
 							if (bin.equals("11111111111111111111111111111111")) {
 								bin = "0";
 							} else {
 								bin = "1";
 							}
-							s = s + bin;
+							if (current == onePerc) {
+								percent++;
+								System.out.println(percent + "%");
+								current = 0;
+							}
+							miniS[percent] = miniS[percent] + bin;
+						}
+						
+						for (String miniString : miniS) {
+							s = s + miniString;
 						}
 						textArea.setText(s);
 						openedText = false;
@@ -287,7 +304,7 @@ public class Frame extends javax.swing.JFrame {
 					if (Huffmanes.isSelected() && Encodes.isSelected()) {
 						// saves Huffman encoded text as binary
 						String encoded = Huffman.compress(textArea.getText());
-						System.out.println(encoded);
+		//				System.out.println(encoded);
 						// save encoded in a file
 						String[] split = encoded.split("(?=\\{)");
 						System.out.println(split[0]);
@@ -329,7 +346,7 @@ public class Frame extends javax.swing.JFrame {
 					} else if (Huffmanes.isSelected() && Decodes.isSelected()) {
 						// saves Huffman decoded text as regular file
 						String decoded = Huffman.decompress(textArea.getText());
-						System.out.println(decoded);
+		//				System.out.println(decoded);
 						// save decoded in a file
 						 JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 						  fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -351,7 +368,7 @@ public class Frame extends javax.swing.JFrame {
 					} else if (RLEs.isSelected() && Encodes.isSelected()) {
 						// saves RLE encoded text as whatever eats less space (needs for next labdarba)
 						String encoded = RLE.compress(textArea.getText());
-						System.out.println(encoded);
+		//				System.out.println(encoded);
 						// save encoded in a file
 						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -376,7 +393,7 @@ public class Frame extends javax.swing.JFrame {
 					} else if (RLEs.isSelected() && Decodes.isSelected()) {
 						// saves RLE decoded text as regular file (needs for next labdarba)
 						String decoded = RLE.decompress(textArea.getText());
-						System.out.println(decoded);
+		//				System.out.println(decoded);
 						// save decoded in a file
 						JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
 						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -404,13 +421,13 @@ public class Frame extends javax.swing.JFrame {
 					if (Huffmanes.isSelected() && Encodes.isSelected()) {
 						// saves Huffman encoded text as binary (for next labdarba)
 						String encoded = Huffman.compress(textArea.getText());
-						System.out.println(encoded);
+		//				System.out.println(encoded);
 						// save encoded in a file
 
 					} else if (Huffmanes.isSelected() && Decodes.isSelected()) {
 						// saves Huffman decoded text as bmp (for next labdarba)
 						String decoded = Huffman.decompress(textArea.getText());
-						System.out.println(decoded);
+		//				System.out.println(decoded);
 						decoded = toARGB(decoded);
 						// save decoded in a file
 
